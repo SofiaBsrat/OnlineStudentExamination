@@ -9,6 +9,7 @@ const port = process.env.PORT || 4000;
 
 const indexRouter = require('./routes/index');
 const studentRouter = require('./routes/student');
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(express.json());
 
 app.use('/', indexRouter);
 app.use('/students', studentRouter);
+app.use('/users', userRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
