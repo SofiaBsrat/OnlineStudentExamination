@@ -4,7 +4,7 @@
       <div class="navbar-header">
 
         <div class="navbar-brand">
-          <a href="index.html">
+          <a [routerLink]="['/about']">
             <h1>Student Screening System</h1>
           </a>
         </div>
@@ -20,26 +20,32 @@
 
       <div id="collapsable-nav" class="collapse navbar-collapse">
         <ul id="nav-list" class="nav navbar-nav navbar-right">
-          <li id="navAboutButton">
+          <li id="navAboutButton" [routerLinkActive]="['active']">
             <a href="">
               <span class="glyphicon glyphicon-info-sign"></span>
               <br class="hidden-xs"> Staff
             </a>
           </li>
-          <li id="navAboutButton">
+          <li id="navAboutButton" [routerLinkActive]="['active']">
             <a href="">
               <span class="glyphicon glyphicon-info-sign"></span>
-              <br class="hidden-xs"> Exam
+              <br class="hidden-xs"> Question
             </a>
           </li>
-          <li id="navAboutButton">
+          <li id="navAboutButton" [routerLinkActive]="['active']">
+              <a href="">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <br class="hidden-xs"> Review
+              </a>
+            </li>
+          <li id="navAboutButton" [routerLinkActive]="['active']">
             <a href="">
               <span class="glyphicon glyphicon-user"></span>
               <br class="hidden-xs"> Profile
             </a>
           </li>
-          <li id="navSignInButton">
-            <a [routerLink]="['signin']">
+          <li id="navSignInButton" [routerLinkActive]="['active']">
+            <a (click)="signout()" href="javascript:void(0);">
               <span class="glyphicon glyphicon-log-out"></span>
               <br class="hidden-xs"> Sign Out
             </a>

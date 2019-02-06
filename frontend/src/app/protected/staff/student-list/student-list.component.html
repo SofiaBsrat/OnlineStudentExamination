@@ -1,0 +1,56 @@
+<div class="table-responsive invited">
+  <table class="table" >
+    <caption >Invited Students</caption>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Entry</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr *ngFor='let stu of students; let i = index'>
+        <td>{{i+1}}</td>
+        <td>{{stu.name}}</td>
+        <td>{{stu.entry}}</td>
+        <td>
+          <button class="btn btn-primary" [id]='stu._id' (click)='sendInvitation(stu._id)'>Invite</button>
+        </td>
+      </tr> -->
+      <tr>
+        <td>2</td>
+        <td>2</td>
+        <td>2</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div class="table-responsive uninvited">
+    <table class="table" >
+      <caption >Uninvited Students</caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Entry</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let stu of uninvitedStudents; let i = index'>
+          <td>{{i+1}}</td>
+          <td>{{stu.name}}</td>
+          <td>{{stu.entry}}</td>
+          <td>
+            <button class="btn btn-primary" [id]='stu._id' (click)='sendInvitation(stu._id)'>Invite</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+  </div>
+  

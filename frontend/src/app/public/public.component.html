@@ -4,7 +4,7 @@
       <div class="navbar-header">
 
         <div class="navbar-brand">
-          <a href="index.html">
+          <a [routerLink]="['/about']">
             <h1>Student Screening System</h1>
           </a>
         </div>
@@ -20,14 +20,14 @@
 
       <div id="collapsable-nav" class="collapse navbar-collapse">
         <ul id="nav-list" class="nav navbar-nav navbar-right">
-          <li id="navAboutButton">
-            <a href="">
+          <li id="navAboutButton" [routerLinkActive]="['active']">
+            <a [routerLink]="['/about']">
               <span class="glyphicon glyphicon-info-sign"></span>
               <br class="hidden-xs"> About
             </a>
           </li>
-          <li id="navSignInButton">
-            <a [routerLink]="['signin']">
+          <li id="navSignInButton" [routerLinkActive]="['active']">
+            <a [routerLink]="['/signin']">
               <span class="glyphicon glyphicon-log-in"></span>
               <br class="hidden-xs"> Sign In
             </a>

@@ -12,7 +12,11 @@ class UserService {
 
     }
 
-    get(queryObj) {
+    getOne(queryObj) {
+        return from(User.findOne(queryObj));
+    }
+
+    getAll(queryObj) {
         return from(User.find(queryObj));
     }
 
