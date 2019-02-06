@@ -33,7 +33,8 @@ function createStudentToken(student) {
         student_id: student.student_id,
         name: student.name,
         entry: student.entry,
-        date_of_birth: student.date_of_birth
+        date_of_birth: student.date_of_birth,
+        email: student.email
     }
     var token = jsonwebtoken.sign(student_data, tokenKey, {
         expiresIn: 86400 // expires in 24 hours

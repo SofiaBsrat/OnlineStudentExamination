@@ -9,6 +9,7 @@ import { StudentService } from 'src/app/services/student.service';
   styleUrls: ['./student-list.component.css']
 })
 export class StudentListComponent implements OnInit, OnDestroy {
+  invitedStudents: any[];
   uninvitedStudents: any[];
   isLoaded = false;
   studentSubscrption: Subscription;
@@ -16,27 +17,12 @@ export class StudentListComponent implements OnInit, OnDestroy {
   constructor(private studentService: StudentService) { }
 
   ngOnInit() {
-    this.studentSubscrption = this.studentService.getUninvitedStudents().subscribe(data => {
-      if (data['status'] === 200) {
-        this.isLoaded = true;
-        this.uninvitedStudents = data['data'];
-      }
-    });
+    this.updateStudentData();
   }
   sendInvitation(id) {
     const student = this.uninvitedStudents.filter(stu => stu._id === id);
-    const reqBody = {
-      student_id: student[0]._id,
-      name: student[0].name,
-      entry: student[0].entry,
-      date_of_birth: student[0].date_of_birth
-    };
-    this.studentService.sendInvitation(reqBody).subscribe(data => {
-      if (data['status'] === 200) {
-        console.log('Invitation Successful.');
-      } else {
-        console.log('Invitation Unsuccessful.');
-      }
+    this.studentService.sendInvitation(student[0]).subscribe(data => {
+      this.updateStudentData();
     });
   }
 
@@ -46,6 +32,11 @@ export class StudentListComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  updateStudentData() {
+    this.studentSubscrption = this.studentService.getStudents().subscribe((data: any[]) => {
+      this.invitedStudents = data.filter(s => s.invitation != null);
+      this.uninvitedStudents = data.filter(s => s.invitation == null);
+    });
+  }
 }
 

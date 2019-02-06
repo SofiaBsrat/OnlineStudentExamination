@@ -21,7 +21,7 @@ const APP_ROUTES: Routes = [
     loadChildren: './protected/admin/admin.module#AdminModule'
   },
   {
-    path: 'student',
+    path: 'student/:id',
     loadChildren: './protected/student/student.module#StudentModule'
   },
   { path: '**', redirectTo: 'about' }
