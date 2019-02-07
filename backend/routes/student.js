@@ -68,6 +68,7 @@ studentRouter.patch('/:id', (req, res, next) => {
     }, {
       '$set': {
         exam: req.body,
+        'invitation.status': 'answered',
         'invitation.valid': false
       }
     }).subscribe(
