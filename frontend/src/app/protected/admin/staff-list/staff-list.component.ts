@@ -26,12 +26,7 @@ export class StaffListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.staffSubscrption = this.staffService.getStaff().subscribe(data => {
-      if (data['status'] === 200) {
-        this.isLoaded = true;
-        this.staffList = data['data'];
-      }
-    });
+    this.getRecentStaffData();
   }
 
   ngOnDestroy() {
@@ -43,11 +38,30 @@ export class StaffListComponent implements OnInit, OnDestroy {
   onSubmit() {
     const staff = {
       name: this.control.name.value,
-      username: this.control.username.value
+      username: this.control.username.value,
+      password: "",
+      active: true,
+      is_admin: false
     };
 
     this.staffService.addStaff(JSON.stringify(staff)).subscribe((response: any) => {
-      
+      this.getRecentStaffData();
     });
   }
+
+  setActive(staff, status) {
+    console.log(status);
+    this.staffService.updateStaff({'staff': staff, 'status': status}).subscribe(data => {
+      this.getRecentStaffData();
+    });
+  }
+
+  getRecentStaffData() {
+    this.staffSubscrption = this.staffService.getStaff().subscribe((users:any[]) => {
+        this.isLoaded = true;
+        this.staffList = users;
+    });
+  }
+
+  
 }

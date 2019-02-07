@@ -13,9 +13,10 @@
       <tr *ngFor='let staff of staffList; let i = index'>
         <td>{{i+1}}</td>
         <td>{{staff.name}}</td>
-        <td>{{staff.entry}}</td>
+        <td>{{staff.username}}</td>
         <td>
-          <button class="btn btn-primary" [id]='staff._id' (click)='setStatus(!staff.active)'>Activate</button>
+          <button *ngIf="!staff.active" class="btn btn-link"  (click)='setActive(staff, true)'>Activate</button>
+          <button *ngIf="staff.active" class="btn btn-link"  (click)='setActive(staff, false)'>Deactivate</button>
         </td>
       </tr>
     </tbody>

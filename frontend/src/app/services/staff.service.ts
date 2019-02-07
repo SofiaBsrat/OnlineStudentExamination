@@ -20,4 +20,10 @@ export class StaffService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     });
   }
+
+  updateStaff(reqBody) {
+    return this.http.patch(this.configService.BASE_API_URL + '/users?admin=false', reqBody, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    });
+  }
 }
