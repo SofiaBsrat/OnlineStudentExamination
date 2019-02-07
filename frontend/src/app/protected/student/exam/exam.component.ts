@@ -28,15 +28,29 @@ export class ExamComponent implements OnInit, OnDestroy {
   answer2Subscriber: Subscription;
   answer3Subscriber: Subscription;
   getQuesSubsrciber: Subscription;
-  exam = {
-    'studentid': String,
-    questions: []
-  };
+
+  qandas = [
+    {
+      question: '',
+      answer: '',
+      snapshots: []
+    },
+    {
+      question: '',
+      answer: '',
+      snapshots: []
+    },
+    {
+      question: '',
+      answer: '',
+      snapshots: []
+    }
+  ];
 
   constructor(private fb: FormBuilder, private currentRoute: ActivatedRoute, private studentService: StudentService,
     private route: Router) {
     this.examSubscriber = this.currentRoute.parent.params.subscribe(params => {
-      this.studentIdFromParent = + params['id'];
+      this.studentIdFromParent = params['id'];
       console.log(this.studentIdFromParent);
     });
     this.examForm = this.fb.group({
@@ -51,32 +65,48 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isLoaded = true;
-    this.examForm.setValue({
-      'question1': 'Q1',
-      'answer1': '',
-      'question2': 'Q2',
-      'answer2': '',
-      'question3': 'Q3',
-      'answer3': ''
+    this.getQuesSubsrciber = this.studentService.getExam(this.studentIdFromParent).subscribe((examQuestions: any[]) => {
+      if (examQuestions.length > 2) {
+        this.isLoaded = true;
+        this.startTimer();
+        this.examForm.setValue({
+          'question1': `Q1) ${examQuestions[0].question}`,
+          'answer1': '',
+          'question2': `Q2) ${examQuestions[1].question}`,
+          'answer2': '',
+          'question3': `Q3) ${examQuestions[2].question}`,
+          'answer3': ''
 
+        });
+        let i = 0;
+        examQuestions.forEach(x => {
+          this.qandas[i] = {
+            question: x.question,
+            answer: '',
+            snapshots: []
+          };
+          i++;
+        });
+        this.subscribeAnswers();
+      } else {
+        this.route.navigate(['/']);
+      }
     });
-    this.startTimer();
   }
 
   subscribeAnswers() {
     this.answer1Subscriber = this.examForm.get('answer1').valueChanges.pipe(debounceTime(2000)
     ).subscribe(x => {
-      this.exam.questions[0].snapshots.push(x);
-      console.log('a ' + x);
+      console.log(x);
+      this.qandas[0].snapshots.push(x);
     });
     this.answer2Subscriber = this.examForm.get('answer2').valueChanges.pipe(debounceTime(2000)
     ).subscribe(x => {
-      this.exam.questions[1].snapshots.push(x);
+      this.qandas[1].snapshots.push(x);
     });
     this.answer3Subscriber = this.examForm.get('answer3').valueChanges.pipe(debounceTime(2000)
     ).subscribe(x => {
-      this.exam.questions[2].snapshots.push(x);
+      this.qandas[2].snapshots.push(x);
     });
   }
 
@@ -93,16 +123,23 @@ export class ExamComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form);
-    this.exam.questions[0].answer = form.value.answer1;
-    this.exam.questions[1].answer = form.value.answer2;
-    this.exam.questions[2].answer = form.value.answer3;
-    console.log(this.exam);
-    this.studentService.submitExam(this.exam).subscribe((data) => {
-      if (data['status'] === '200') {
-        this.examForm.reset();
-        this.isLoaded = false;
-      }
+    // console.log(form);
+    this.qandas[0].answer = form.value.answer1;
+    this.qandas[1].answer = form.value.answer2;
+    this.qandas[2].answer = form.value.answer3;
+    const exam = {
+      report: {
+        date: new Date(),
+        qandas: this.qandas,
+        timespent: `${120 - this.minutes} min and ${60 - this.seconds} sec`
+      },
+      result: false,
+      published: false
+    };
+    this.studentService.submitExam(this.studentIdFromParent, exam).subscribe(() => {
+      this.examForm.reset();
+      this.isLoaded = false;
+      // this.route.navigate(['/']);
     });
   }
 

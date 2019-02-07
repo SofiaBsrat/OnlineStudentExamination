@@ -21,13 +21,6 @@ export class StudentService {
     return this.http.get(this.configService.BASE_API_URL + '/students');
   }
 
-  // getUninvitedStudents() {
-  //   return this.http.get(this.configService.BASE_API_URL + '/students?invited=false');
-  // }
-  // getInvitedStudents() {
-  //   return this.http.get(this.configService.BASE_API_URL + '/students?invited=true');
-  // }
-
   sendInvitation(student) {
     return this.http.patch(
       `${this.configService.BASE_API_URL}/students/${student._id}?invite=true`, student, httpOptions
@@ -35,15 +28,10 @@ export class StudentService {
   }
 
   // validate token and get an exam (3 random questions)
-  getExam(token: string) {
-    // return this.http.get(this.configService.BASE_API_URL + '/questions/validatetokenandgetquestions/' + token);
-    return this.http.get(this.configService.BASE_API_URL + '/questions');
-
+  getExam(studentId: number) {
+    return this.http.get(this.configService.BASE_API_URL + `/questions?studentId=${studentId}`);
   }
-  submitExam(report) {
-    return this.http.patch(
-      `${this.configService.BASE_API_URL}/student/report.studentid`,
-      { date: Date.now(), questions: report.questions }, httpOptions
-    );
+  submitExam(studentId, examObj) {
+    return this.http.patch(`${this.configService.BASE_API_URL}/students/${studentId}?exam=true`, examObj, httpOptions);
   }
 }

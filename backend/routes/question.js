@@ -5,13 +5,41 @@ const QuestionService = require('../services/question');
 const questionRouter = express.Router();
 
 const questionService = new QuestionService();
+const StudentService = require('../services/student');
+const studentService = new StudentService();
+const tokenLib = require('../libs/token');
 
 questionRouter.get('/', function (req, res, next) {
-  questionService.get({}).subscribe(
-    (questions) => res.status(200).json(questions),
-    (err) => next(err),
-    null
-  );
+  if (req.query.studentId) {
+    // console.log(req.query.studentId);
+    studentService.getOne({_id: req.query.studentId}).subscribe(
+      (student) => {
+        // console.log(student['invitations']); 
+        // if(student != null) { 
+          const token = student.invitation != null ? student.invitation.token :  '';
+          console.log(student.invitation.token);
+          tokenLib.verifyToken(token)
+          .then(() => {
+            console.log("valid");
+            questionService.getExamQuestions(3).subscribe(
+              (questions) => {console.log(questions); res.status(200).json(questions);},
+              (err) => next(err),
+              null
+            );
+          })
+          .catch((err) => next(err));
+        // }
+      },
+      (err) => next(err),
+      null
+    );
+  } else {
+    questionService.get({}).subscribe(
+      (questions) => res.status(200).json(questions),
+      (err) => next(err),
+      null
+    );
+  }
 
 });
 
@@ -25,7 +53,7 @@ questionRouter.post('/', function (req, res, next) {
 
 questionRouter.patch('/', (req, res, next) => {
   questionService.update({
-    _id: req.body.question._id 
+    _id: req.body.question._id
   }, {
     '$set': {
       active: req.body.status

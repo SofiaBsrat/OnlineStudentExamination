@@ -18,7 +18,6 @@ const studentSchema = new mongoose.Schema({
         valid: Boolean
     },
     exam: {
-        questions: [],
         report: {
             date: Date,
             qandas: [{

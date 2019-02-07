@@ -62,8 +62,21 @@ studentRouter.patch('/:id', (req, res, next) => {
         ))
       .catch((err) => next(err));
 
+  } else if (req.query.exam) {
+    studentService.update({
+      _id: req.params.id
+    }, {
+      '$set': {
+        exam: req.body
+      }
+    }).subscribe(
+      () => res.status(200).json({
+        success: true
+      }),
+      (err) => next(err),
+      null
+    );
   }
-
 });
 
 studentRouter.delete('/:id', (req, res, next) => {

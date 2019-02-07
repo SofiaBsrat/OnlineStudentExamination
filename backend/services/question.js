@@ -16,6 +16,10 @@ class QuestionService {
         return from(Question.find(queryObj));
     }
 
+    getExamQuestions(amount) {
+        return from(Question.find({}).where('active').equals('true').limit(amount));
+    }
+
     update(queryObj, updateObj) {
         return from(Question.updateOne(queryObj, updateObj));
     }

@@ -30,6 +30,10 @@ class StudentService {
         return from(Student.find(queryObj));
     }
 
+    getOne(queryObj) {
+        return from(Student.findOne(queryObj));
+    }
+
     update(queryObj, updateObj) {
         return from(Student.updateOne(queryObj, updateObj));
     }
