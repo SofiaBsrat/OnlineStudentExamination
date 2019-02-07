@@ -9,6 +9,7 @@ const port = process.env.PORT || 4000;
 var headerTokenVerifier = require('./libs/header-token-verifier');
 
 const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 const studentRouter = require('./routes/student');
 const userRouter = require('./routes/user');
 const questionRouter = require('./routes/question');
@@ -30,8 +31,10 @@ app.use(morganLogger('dev')); //to standard output
 app.use(express.json());
 
 app.use('/', indexRouter);
+// app.use('/auth', authRouter);
 // app.use('/students', headerTokenVerifier, studentRouter);
 app.use('/students', studentRouter);
+// app.use('/users', headerTokenVerifier, studentRouter);
 app.use('/users', userRouter);
 // app.use('/questions', headerTokenVerifier, questionRouter);
 app.use('/questions', questionRouter);

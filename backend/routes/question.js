@@ -11,24 +11,28 @@ const tokenLib = require('../libs/token');
 
 questionRouter.get('/', function (req, res, next) {
   if (req.query.studentId) {
-    // console.log(req.query.studentId);
-    studentService.getOne({_id: req.query.studentId}).subscribe(
+    studentService.getOne({
+      _id: req.query.studentId
+    }).subscribe(
       (student) => {
-        // console.log(student['invitations']); 
-        // if(student != null) { 
-          const token = student.invitation != null ? student.invitation.token :  '';
-          console.log(student.invitation.token);
+        if (student.invitation.valid) {
+          const token = student.invitation != null ? student.invitation.token : '';
+          // console.log(student.invitation.token);
           tokenLib.verifyToken(token)
-          .then(() => {
-            console.log("valid");
-            questionService.getExamQuestions(3).subscribe(
-              (questions) => {console.log(questions); res.status(200).json(questions);},
-              (err) => next(err),
-              null
-            );
-          })
-          .catch((err) => next(err));
-        // }
+            .then(() => {
+              questionService.getExamQuestions(3).subscribe(
+                (questions) => {
+                  console.log(questions);
+                  res.status(200).json(questions);
+                },
+                (err) => next(err),
+                null
+              );
+            })
+            .catch((err) => next(err));
+        } else {
+          return next('You already took the exam.');
+        }
       },
       (err) => next(err),
       null
