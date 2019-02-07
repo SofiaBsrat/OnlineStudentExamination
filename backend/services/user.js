@@ -20,8 +20,8 @@ class UserService {
         return from(User.find(queryObj));
     }
 
-    update(queryObj, userObj) {
-
+    update(queryObj, updateObj) {
+        return from(User.updateOne(queryObj, updateObj));
     }
 
     delete(queryObj) {}

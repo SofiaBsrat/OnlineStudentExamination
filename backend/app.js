@@ -25,7 +25,7 @@ app.use(cors());
 
 // setup the morgan logger
 app.use(morganLogger('dev')); //to standard output
-app.use(morganLogger('combined', { stream: accessLogStream })) //to a log file
+// app.use(morganLogger('combined', { stream: accessLogStream })) //to a log file
 
 app.use(express.json());
 

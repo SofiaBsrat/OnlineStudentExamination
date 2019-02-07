@@ -46,8 +46,22 @@ userRouter.post('/auth', (req, res, next) => {
 });
 
 
-userRouter.patch('/:id', (req, res, next) => {
-
+userRouter.patch('/', (req, res, next) => {
+  if (!RegExp.query.admin) {
+    userService.update({
+      _id: req.body.staff._id 
+    }, {
+      '$set': {
+        active: req.body.status
+      }
+    }).subscribe(
+      () => res.status(200).json({
+        success: true
+      }),
+      (err) => next(err),
+      null
+    );
+  }
 });
 
 module.exports = userRouter;

@@ -26,12 +26,7 @@ export class QuestionListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.questionSubscrption = this.questionService.getQuestions().subscribe(data => {
-      if (data['status'] === 200) {
-        this.isLoaded = true;
-        this.questionList = data['data'];
-      }
-    });
+    this.getRecentQuestionData();
   }
 
   ngOnDestroy() {
@@ -44,11 +39,18 @@ export class QuestionListComponent implements OnInit {
     const questionObj = {
       category: this.control.category.value,
       question: this.control.question.value,
-      active: this.control.active.value,
+      active: true,
     };
 
     this.questionService.addQuestion(JSON.stringify(questionObj)).subscribe((response: any) => {
-      
+      this.getRecentQuestionData();
+    });
+  }
+
+  getRecentQuestionData() {
+    this.questionSubscrption = this.questionService.getQuestions().subscribe((questions:any[]) => {
+        this.isLoaded = true;
+        this.questionList = questions;
     });
   }
 }
