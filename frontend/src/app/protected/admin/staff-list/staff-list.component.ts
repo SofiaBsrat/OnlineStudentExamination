@@ -17,7 +17,7 @@ export class StaffListComponent implements OnInit, OnDestroy {
   control: any;
   staffSubscrption: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private staffService: StaffService) { 
+  constructor(private formBuilder: FormBuilder, private staffService: StaffService) {
     this.staffForm = formBuilder.group({
       'name': ['', Validators.required],
       'username': ['', Validators.required],
@@ -39,29 +39,28 @@ export class StaffListComponent implements OnInit, OnDestroy {
     const staff = {
       name: this.control.name.value,
       username: this.control.username.value,
-      password: "",
+      password: '',
       active: true,
       is_admin: false
     };
-
+    this.staffForm.reset();
     this.staffService.addStaff(JSON.stringify(staff)).subscribe((response: any) => {
       this.getRecentStaffData();
     });
   }
 
   setActive(staff, status) {
-    console.log(status);
-    this.staffService.updateStaff({'staff': staff, 'status': status}).subscribe(data => {
+    // console.log(status);
+    this.staffService.updateStaff({staff: staff, status: status}).subscribe(data => {
+      console.log(data);
       this.getRecentStaffData();
     });
   }
 
   getRecentStaffData() {
-    this.staffSubscrption = this.staffService.getStaff().subscribe((users:any[]) => {
+    this.staffSubscrption = this.staffService.getStaff().subscribe((users: any[]) => {
         this.isLoaded = true;
         this.staffList = users;
     });
   }
-
-  
 }

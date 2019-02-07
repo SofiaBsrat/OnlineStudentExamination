@@ -22,6 +22,7 @@ export class StaffService {
   }
 
   updateStaff(reqBody) {
+    console.log(reqBody);
     return this.http.patch(this.configService.BASE_API_URL + '/users?admin=false', reqBody, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     });

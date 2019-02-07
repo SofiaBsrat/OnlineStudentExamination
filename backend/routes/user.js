@@ -47,7 +47,7 @@ userRouter.post('/auth', (req, res, next) => {
 
 
 userRouter.patch('/', (req, res, next) => {
-  if (!RegExp.query.admin) {
+  // if (req.query.admin == false) {
     userService.update({
       _id: req.body.staff._id 
     }, {
@@ -61,7 +61,7 @@ userRouter.patch('/', (req, res, next) => {
       (err) => next(err),
       null
     );
-  }
+  // }
 });
 
 module.exports = userRouter;

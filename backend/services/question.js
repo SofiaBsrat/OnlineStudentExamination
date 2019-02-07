@@ -16,8 +16,8 @@ class QuestionService {
         return from(Question.find(queryObj));
     }
 
-    update(queryObj, questionObj) {
-
+    update(queryObj, updateObj) {
+        return from(Question.updateOne(queryObj, updateObj));
     }
 
     delete(queryObj) {}

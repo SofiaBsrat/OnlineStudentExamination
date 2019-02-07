@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { QuestionService } from 'src/app/services/question.service';
@@ -8,7 +8,7 @@ import { QuestionService } from 'src/app/services/question.service';
   templateUrl: './question-list.component.html',
   styleUrls: ['./question-list.component.css']
 })
-export class QuestionListComponent implements OnInit {
+export class QuestionListComponent implements OnInit, OnDestroy {
 
   questionForm: FormGroup;
   questionList: any[];
@@ -16,11 +16,10 @@ export class QuestionListComponent implements OnInit {
   control: any;
   questionSubscrption: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private questionService: QuestionService) { 
+  constructor(private formBuilder: FormBuilder, private questionService: QuestionService) {
     this.questionForm = formBuilder.group({
       'category': ['', Validators.required],
-      'question': ['', Validators.required],
-      'active': ['', Validators.required]
+      'question': ['', Validators.required]
     });
     this.control = this.questionForm.controls;
   }
@@ -41,14 +40,21 @@ export class QuestionListComponent implements OnInit {
       question: this.control.question.value,
       active: true,
     };
-
+    this.questionForm.reset();
     this.questionService.addQuestion(JSON.stringify(questionObj)).subscribe((response: any) => {
       this.getRecentQuestionData();
     });
   }
 
+  setActive(question, status) {
+    // console.log(status);
+    this.questionService.updateQuestion({question: question, status: status}).subscribe(data => {
+      this.getRecentQuestionData();
+    });
+  }
+
   getRecentQuestionData() {
-    this.questionSubscrption = this.questionService.getQuestions().subscribe((questions:any[]) => {
+    this.questionSubscrption = this.questionService.getQuestions().subscribe((questions: any[]) => {
         this.isLoaded = true;
         this.questionList = questions;
     });

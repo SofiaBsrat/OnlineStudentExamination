@@ -23,8 +23,22 @@ questionRouter.post('/', function (req, res, next) {
     .catch((err) => next(err));
 });
 
-questionRouter.patch('/:id', (req, res, next) => {
-
+questionRouter.patch('/', (req, res, next) => {
+  questionService.update({
+    _id: req.body.question._id 
+  }, {
+    '$set': {
+      active: req.body.status
+    }
+  }).subscribe(
+    () => res.status(200).json({
+      success: true
+    }),
+    (err) => next(err),
+    null
+  );
 });
+
+
 
 module.exports = questionRouter;

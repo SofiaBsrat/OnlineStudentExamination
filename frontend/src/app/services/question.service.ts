@@ -19,4 +19,10 @@ export class QuestionService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     });
   }
+
+  updateQuestion(reqBody) {
+    return this.http.patch(this.configService.BASE_API_URL + '/questions', reqBody, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    });
+  }
 }

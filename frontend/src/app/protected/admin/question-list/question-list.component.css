@@ -33,4 +33,10 @@
     color: #ff0000;
     font-size: 1.2em;
   }
+
+  button {
+    font-size: 1.0em;
+    font-weight: bold;
+  }
+  
   

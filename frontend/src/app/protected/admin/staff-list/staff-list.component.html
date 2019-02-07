@@ -1,4 +1,4 @@
-<div class="table-responsive uninvited">
+<div class="table-responsive invited">
   <table class="table" >
     <caption > Staffs </caption>
     <thead>
@@ -15,8 +15,7 @@
         <td>{{staff.name}}</td>
         <td>{{staff.username}}</td>
         <td>
-          <button *ngIf="!staff.active" class="btn btn-link"  (click)='setActive(staff, true)'>Activate</button>
-          <button *ngIf="staff.active" class="btn btn-link"  (click)='setActive(staff, false)'>Deactivate</button>
+          <button class="btn btn-link"  (click)='setActive(staff, !staff.active)'>{{staff.active ? 'Deactivate' : 'Activate'}}</button>
         </td>
       </tr>
     </tbody>
@@ -49,4 +48,3 @@
         </form>
   </div>
 </div>
-
